@@ -10,6 +10,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -75,7 +76,7 @@ public class ProfileService {
         if(email == null) {
             currentUser = getCurrentProfile();
         } else {
-            profileRepository.findByEmail(email).orElseThrow(() ->
+            currentUser = profileRepository.findByEmail(email).orElseThrow(() ->
                     new UsernameNotFoundException("Profile not found with email: " + email));
         }
 
@@ -87,11 +88,15 @@ public class ProfileService {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authDTO.getEmail(), authDTO.getPassword()));
             String token = jwtUtil.generateToken(authDTO.getEmail());
             return Map.of(
-                     "token", token, "user",
-                     getPublicProfile(authDTO.getEmail())
+                     "token", token,
+                     "user", getPublicProfile(authDTO.getEmail())
              );
+        }  catch (UsernameNotFoundException e) {
+            throw new RuntimeException("Email does not exist");
+        } catch (BadCredentialsException e) {
+            throw new RuntimeException("Password is incorrect");
         } catch (Exception e) {
-            throw new RuntimeException("Invalid email or password");
+            throw new RuntimeException("Authentication failed: " + e.getMessage());
         }
     }
 }
