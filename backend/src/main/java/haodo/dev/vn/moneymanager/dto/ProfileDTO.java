@@ -1,27 +1,27 @@
 package haodo.dev.vn.moneymanager.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
 import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProfileDTO {
-    private Long id;
+    Long id;
 
-    private String fullname;
+    String fullname;
 
-    private String email;
+    String email;
 
-    private String password;
+    String password;
 
-    private String profileImage;
+    String profileImage;
 
-    private LocalDateTime createdAt;
+    LocalDateTime createdAt;
 
-    private LocalDateTime updatedAt;
+    LocalDateTime updatedAt;
 }

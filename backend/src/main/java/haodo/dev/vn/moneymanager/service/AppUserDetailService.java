@@ -2,7 +2,9 @@ package haodo.dev.vn.moneymanager.service;
 
 import haodo.dev.vn.moneymanager.entity.ProfileEntity;
 import haodo.dev.vn.moneymanager.repository.ProfileRepository;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,8 +15,9 @@ import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AppUserDetailService implements UserDetailsService {
-    private final ProfileRepository profileRepository;
+    ProfileRepository profileRepository;
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         ProfileEntity existingProfile = profileRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Profile not found with email"));

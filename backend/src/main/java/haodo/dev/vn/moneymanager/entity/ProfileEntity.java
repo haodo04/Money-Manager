@@ -2,6 +2,7 @@ package haodo.dev.vn.moneymanager.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -13,31 +14,32 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProfileEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
-    private String fullname;
+    String fullname;
 
     @Column(unique = true)
-    private String email;
+    String email;
 
-    private String password;
+    String password;
 
-    private String profileImage;
+    String profileImage;
 
     @Column(updatable = false)
     @CreationTimestamp
-    private LocalDateTime createdAt;
+    LocalDateTime createdAt;
 
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    LocalDateTime updatedAt;
 
-    private Boolean isActive;
+    Boolean isActive;
 
-    private String activationToken;
+    String activationToken;
 
     @PrePersist
     public void prePersist() {
