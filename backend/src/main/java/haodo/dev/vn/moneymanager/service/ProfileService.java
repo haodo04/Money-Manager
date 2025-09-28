@@ -5,6 +5,7 @@ import haodo.dev.vn.moneymanager.dto.ProfileDTO;
 import haodo.dev.vn.moneymanager.entity.ProfileEntity;
 import haodo.dev.vn.moneymanager.mapper.ProfileMapper;
 import haodo.dev.vn.moneymanager.repository.ProfileRepository;
+import haodo.dev.vn.moneymanager.util.JwtUtil;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -29,6 +30,7 @@ public class ProfileService {
     PasswordEncoder passwordEncoder;
     AuthenticationManager authenticationManager;
     ProfileMapper profileMapper;
+    JwtUtil jwtUtil;
 
     public ProfileDTO registerProfile(ProfileDTO profileDTO) {
         ProfileEntity newProfile = profileMapper.toEntity(profileDTO, passwordEncoder);
@@ -83,8 +85,9 @@ public class ProfileService {
     public Map<String, Object> authenticateGenerateToken(AuthDTO authDTO) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authDTO.getEmail(), authDTO.getPassword()));
-             return Map.of(
-                     "token", "JWT token", "user",
+            String token = jwtUtil.generateToken(authDTO.getEmail());
+            return Map.of(
+                     "token", token, "user",
                      getPublicProfile(authDTO.getEmail())
              );
         } catch (Exception e) {

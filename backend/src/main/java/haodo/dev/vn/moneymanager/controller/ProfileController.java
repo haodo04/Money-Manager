@@ -3,6 +3,7 @@ package haodo.dev.vn.moneymanager.controller;
 import haodo.dev.vn.moneymanager.dto.AuthDTO;
 import haodo.dev.vn.moneymanager.dto.ProfileDTO;
 import haodo.dev.vn.moneymanager.service.ProfileService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -20,7 +21,7 @@ public class ProfileController {
     ProfileService profileService;
 
     @PostMapping("/register")
-    public ResponseEntity<ProfileDTO> registerProfile(@RequestBody ProfileDTO profileDTO) {
+    public ResponseEntity<ProfileDTO> registerProfile(@Valid @RequestBody ProfileDTO profileDTO) {
         ProfileDTO registeredProfile = profileService.registerProfile(profileDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(registeredProfile);
     }
@@ -31,7 +32,7 @@ public class ProfileController {
         if (isActivated) {
             return ResponseEntity.ok("Profile activated successfully");
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Activation token not" +
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Activation token not " +
                     "found or already used");
         }
     }

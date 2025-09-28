@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class EmailService {
 
-    JavaMailSender mailSender;
+    final JavaMailSender mailSender;
 
     @Value("${app.mail.from}")
     String fromEmail;
