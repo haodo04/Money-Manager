@@ -1,11 +1,14 @@
 package haodo.dev.vn.moneymanager.controller;
 
+import haodo.dev.vn.moneymanager.dto.AuthDTO;
 import haodo.dev.vn.moneymanager.dto.ProfileDTO;
 import haodo.dev.vn.moneymanager.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,4 +32,22 @@ public class ProfileController {
                     "found or already used");
         }
     }
+
+   @PostMapping("/login")
+   public ResponseEntity<Map<String, Object>> login(@RequestBody AuthDTO authDTO) {
+        try {
+            if(!profileService.isAccountActive(authDTO.getEmail())) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                        Map.of("message", "Account is not active. Please active" +
+                                "your account first")
+                );
+            }
+            Map<String, Object> response = profileService.authenticateGenerateToken(authDTO);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+                    "message", e.getMessage()
+            ));
+        }
+   }
 }

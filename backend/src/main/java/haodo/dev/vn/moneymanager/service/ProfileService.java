@@ -1,15 +1,19 @@
 package haodo.dev.vn.moneymanager.service;
 
+import haodo.dev.vn.moneymanager.dto.AuthDTO;
 import haodo.dev.vn.moneymanager.dto.ProfileDTO;
 import haodo.dev.vn.moneymanager.entity.ProfileEntity;
 import haodo.dev.vn.moneymanager.repository.ProfileRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -18,6 +22,7 @@ public class ProfileService {
     private final ProfileRepository profileRepository;
     private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
 
     public ProfileDTO registerProfile(ProfileDTO profileDTO) {
         ProfileEntity newProfile = toEntity(profileDTO);
@@ -94,5 +99,17 @@ public class ProfileService {
                 .createdAt(currentUser.getCreatedAt())
                 .updatedAt(currentUser.getUpdatedAt())
                 .build();
+    }
+
+    public Map<String, Object> authenticateGenerateToken(AuthDTO authDTO) {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authDTO.getEmail(), authDTO.getPassword()));
+             return Map.of(
+                     "token", "JWT token", "user",
+                     getPublicProfile(authDTO.getEmail())
+             );
+        } catch (Exception e) {
+            throw new RuntimeException("Invalid email or password");
+        }
     }
 }
