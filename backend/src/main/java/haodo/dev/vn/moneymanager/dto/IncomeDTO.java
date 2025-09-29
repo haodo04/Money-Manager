@@ -22,6 +22,8 @@ public class IncomeDTO {
 
     Long categoryId;
 
+    Long profileId;
+
     BigDecimal amount;
 
     LocalDate date;

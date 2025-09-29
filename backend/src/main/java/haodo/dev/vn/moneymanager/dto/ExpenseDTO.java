@@ -23,6 +23,8 @@ public class ExpenseDTO {
 
     Long categoryId;
 
+    Long profileId;
+
     BigDecimal amount;
 
     LocalDate date;
