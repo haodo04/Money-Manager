@@ -3,6 +3,8 @@ package haodo.dev.vn.moneymanager.dto;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -10,16 +12,20 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProfileDTO {
+public class ExpenseDTO {
     Long id;
 
-    String fullname;
+    String name;
 
-    String email;
+    String icon;
 
-    String password;
+    String categoryName;
 
-    String profileImage;
+    Long categoryId;
+
+    BigDecimal amount;
+
+    LocalDate date;
 
     LocalDateTime createdAt;
 

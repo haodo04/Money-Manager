@@ -9,26 +9,19 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tbl_profiles")
+@Table(name = "tbl_categories")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProfileEntity {
+public class CategoryEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    String fullname;
-
-    @Column(unique = true)
-    String email;
-
-    String password;
-
-    String profileImage;
+    String name;
 
     @Column(updatable = false)
     @CreationTimestamp
@@ -37,14 +30,12 @@ public class ProfileEntity {
     @UpdateTimestamp
     LocalDateTime updatedAt;
 
-    Boolean isActive;
+    String type;
 
-    String activationToken;
+    String icon;
 
-    @PrePersist
-    public void prePersist() {
-        if (this.isActive == null) {
-            isActive = false;
-        }
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id", nullable = false)
+    private ProfileEntity profile;
+
 }

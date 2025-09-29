@@ -6,45 +6,50 @@ import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "tbl_profiles")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Entity
+@Table(name = "tbl_expenses")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProfileEntity {
+public class ExpenseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    String fullname;
+    String name;
 
-    @Column(unique = true)
-    String email;
+    String icon;
 
-    String password;
+    LocalDate date;
 
-    String profileImage;
+    BigDecimal amount;
 
-    @Column(updatable = false)
     @CreationTimestamp
+    @Column(updatable = false)
     LocalDateTime createdAt;
 
     @UpdateTimestamp
     LocalDateTime updatedAt;
 
-    Boolean isActive;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
+    CategoryEntity category;
 
-    String activationToken;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id", nullable = false)
+    ProfileEntity profile;
 
     @PrePersist
     public void prePersist() {
-        if (this.isActive == null) {
-            isActive = false;
+        if (this.date == null) {
+            this.date = LocalDate.now();
         }
     }
 }

@@ -10,18 +10,19 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProfileDTO {
+public class CategoryDTO {
     Long id;
 
-    String fullname;
+    private Long profileId;
 
-    String email;
+    String name;
 
-    String password;
+    String type;
 
-    String profileImage;
+    String icon;
 
     LocalDateTime createdAt;
 
     LocalDateTime updatedAt;
+
 }
