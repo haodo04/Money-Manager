@@ -38,7 +38,7 @@ public class ExpenseEntity {
     @UpdateTimestamp
     LocalDateTime updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     CategoryEntity category;
 

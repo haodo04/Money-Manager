@@ -5,10 +5,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+@Repository
 public interface IncomeRepository extends JpaRepository<IncomeEntity, Long> {
     // select * from tbl_incomes where profile_id = ? order by desc
     List<IncomeEntity> findByProfileIdOrderByDateDesc(long profileId);
@@ -18,7 +21,7 @@ public interface IncomeRepository extends JpaRepository<IncomeEntity, Long> {
     List<IncomeEntity> findTop5ByProfileIdOrderByDateDesc(Long profileId);
 
     @Query("select sum(i.amount) from IncomeEntity i where i.profile.id = :profileId")
-    BigDecimal findTotalExpenseByProfileId(@Param("profileId") Long profileId);
+    BigDecimal findTotalIncomeByProfileId(@Param("profileId") Long profileId);
 
     // select * from tbl_incomes where profile_id = ? and date between ? and ?
     // and name like %?% order by date desc

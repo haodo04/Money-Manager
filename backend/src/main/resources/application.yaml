@@ -31,3 +31,7 @@ app:
 
 jwt:
   signerKey: "RIDdDrZ4IzV5zpP1zc7lSqhR71AWXxXTjZnYqov5TAyoz8wHHp+mOr0eg94WwxCk"
+money:
+  manager:
+    frontend:
+      url: http://localhost:5173
