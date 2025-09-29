@@ -9,6 +9,7 @@ import haodo.dev.vn.moneymanager.util.JwtUtil;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,6 +34,9 @@ public class ProfileService {
     ProfileMapper profileMapper;
     JwtUtil jwtUtil;
 
+    @Value("${app.activation.url}")
+    static String activationURL;
+
     public ProfileDTO registerProfile(ProfileDTO profileDTO) {
         ProfileEntity newProfile = profileMapper.toEntity(profileDTO, passwordEncoder);
         newProfile.setActivationToken(UUID.randomUUID().toString());
@@ -41,7 +45,7 @@ public class ProfileService {
         newProfile = profileRepository.save(newProfile);
 
         // send activation email
-        String activationLink = "http://localhost:8080/activation?token=" + newProfile.getActivationToken();
+        String activationLink = activationURL+"/activation?token=" + newProfile.getActivationToken();
         String subject = "Activate your Money Manager account";
         String body = "Click on the following link to activate your account: " + activationLink;
         emailService.sendEmail(newProfile.getEmail(), subject, body);

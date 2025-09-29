@@ -12,7 +12,7 @@ target/
 .settings
 .springBeans
 .sts4-cache
-
+.evn
 ### IntelliJ IDEA ###
 .idea
 *.iws
@@ -20,6 +20,7 @@ target/
 *.ipr
 
 ### NetBeans ###
+target
 /nbproject/private/
 /nbbuild/
 /dist/

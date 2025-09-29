@@ -1,0 +1,16 @@
+# Brevo Mail Config
+BREVO_FROM_EMAIL=k42.dkhao@gmail.com
+BREVO_PASSWORD=mnNEp1V5ghTvk0Yq
+BREVO_USERNAME=98063a001@smtp-brevo.com
+
+# App URLs
+MONEY_MANAGER_BACKEND_URL=http://localhost:8080
+MONEY_MANAGER_FRONTEND_URL=http://localhost:5173
+
+# JWT Key
+JWT_SIGNER_KEY=RIDdDrZ4IzV5zpP1zc7lSqhR71AWXxXTjZnYqov5TAyoz8wHHp+mOr0eg94WwxCk
+
+# Database (Postgres on Render)
+SPRING_DATASOURCE_URL=jdbc:postgresql://dpg-d3d91cr7mgec73b5rkl0-a.singapore-postgres.render.com/moneymanager_th28
+SPRING_DATASOURCE_USERNAME=moneymanager_th28_user
+SPRING_DATASOURCE_PASSWORD=zQvJ1iOIxp7Tqv19uI4WTVwX92aKSTgy
