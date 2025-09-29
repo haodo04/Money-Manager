@@ -12,6 +12,7 @@ import haodo.dev.vn.moneymanager.repository.IncomeRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -74,5 +75,13 @@ public class IncomeService {
         ProfileEntity profile = profileService.getCurrentProfile();
         BigDecimal total = incomeRepository.findTotalIncomeByProfileId(profile.getId());
         return total != null ? total : BigDecimal.ZERO;
+    }
+
+    // filter incomes
+    public List<IncomeDTO> filterIncomes(LocalDate startDate, LocalDate endDate, String keyword, Sort sort) {
+        ProfileEntity profile = profileService.getCurrentProfile();
+        List<IncomeEntity> list = incomeRepository.findByProfileIdAndDateBetweenAndNameContainingIgnoreCase
+                (profile.getId(), startDate, endDate, keyword, sort);
+        return list.stream().map(incomeMapper::toDTO).toList();
     }
 }
