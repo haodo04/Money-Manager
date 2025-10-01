@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { assets } from "../assets/assets";
 import Input from "../components/Input";
+import { validateEmail } from "../util/validation";
 
 const Signup = () => {
   const [fullName, setFullName] = useState("");
@@ -9,6 +10,27 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // basic validation
+    if (!fullName.trim()) {
+      setError("Please enter your fullname");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setError("Please enter your valid email address");
+      return;
+    }
+    if (!password.trim()) {
+      setError("Please enter your password");
+      return;
+    }
+
+
+  };
 
   return (
     <div>
@@ -27,7 +49,7 @@ const Signup = () => {
             <p className="text-sm text-slate-700 text-center mb-8">
               Start tracking your spending by joining with us
             </p>
-            <form className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div className="flex justify-center mb-6">
                 {/* {Profile image} */}
               </div>
