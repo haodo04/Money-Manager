@@ -4,3 +4,5 @@ const API_ENDPOINTS = {
     LOGIN: "/login",
     REGISTER: "/register",
 }
+
+export default API_ENDPOINTS;
