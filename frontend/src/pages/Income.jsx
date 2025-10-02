@@ -1,9 +1,12 @@
 import React from 'react'
+import Dashboard from '../components/Dashboard'
 
-const Incom = () => {
+const Income = () => {
   return (
-    <div>Incom</div>
+    <Dashboard activeMenu="Income">
+      This is income page
+    </Dashboard>
   )
 }
 
-export default Incom
+export default Income
