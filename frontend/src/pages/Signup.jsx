@@ -12,7 +12,7 @@ import uploadProfileImage from "../util/uploadProfileImage";
 
 
 const Signup = () => {
-  const [fullName, setFullName] = useState("");
+  const [fullname, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -27,7 +27,7 @@ const Signup = () => {
     setIsLoading(true);
 
     // basic validation
-    if (!fullName.trim()) {
+    if (!fullname.trim()) {
       setError("Please enter your fullname");
       setIsLoading(false);
       return;
@@ -53,10 +53,10 @@ const Signup = () => {
         profileImageUrl = imageUrl || ""
       }
       const response = await axiosConfig.post(API_ENDPOINTS.REGISTER, {
-        fullName,
+        fullname,
         email,
         password,
-        profileImageUrl
+        profileImage: profileImageUrl
       });
       if (response.status === 201) {
         toast.success("Profile created successfully.");
@@ -93,7 +93,7 @@ const Signup = () => {
               </div>
               <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
                 <Input
-                  value={fullName}
+                  value={fullname}
                   onChange={(e) => setFullName(e.target.value)}
                   label="Full Name"
                   placeholder="Enter full Name"

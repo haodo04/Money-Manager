@@ -9,10 +9,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Mapper(componentModel = "spring")
 public interface ProfileMapper {
-    // Map DTO -> Entity
     @Mapping(target = "password", expression = "java(passwordEncoder.encode(dto.getPassword()))")
+    @Mapping(target = "isActive", ignore = true)
+    @Mapping(target = "activationToken", ignore = true)
     ProfileEntity toEntity(ProfileDTO dto, @Context PasswordEncoder passwordEncoder);
 
-    // Map Entity -> DTO
     ProfileDTO toDTO(ProfileEntity entity);
 }
+
