@@ -48,7 +48,7 @@ const Category = () => {
     // check if the category already exists
     const isDuplicate = categoryData.some((category) => {
       return category.name.toLowerCase() === name.trim().toLowerCase();
-    })
+    });
 
     if (isDuplicate) {
       toast.error("Category name already exists");
@@ -72,6 +72,34 @@ const Category = () => {
     }
   };
 
+  const handleEditCategory = (categoryToEdit) => {
+    setSelectCategory(categoryToEdit);
+    setOpenEditCategoryModal(true)
+  };
+
+  const handleUpdateCategory =  async (updatedCategory) => {
+    const {id, name, type, icon} = updatedCategory;
+    if (!name.trim()) {
+      toast.error("Category name is required")
+      return;
+    }
+
+    if(!id) {
+      toast.error("Category ID is missing for update");
+      return;
+    }
+    try {
+      await axiosConfig.put(API_ENDPOINTS.UPDATE_CATEGORY(id), {name, type, icon})
+      setOpenEditCategoryModal(false);
+      setSelectCategory(null);
+      toast.success("Category updated successfully");
+      fetchCategoryDetails();
+    } catch (error) {
+      console.error("Error updating category: ", error.response?.data?.message || error.message);
+      toast.error(error.response?.data?.message || "Failed to update category");
+    }
+  }
+
   return (
     <Dashboard activeMenu="Category">
       <div className="my-5 mx-auto">
@@ -88,7 +116,10 @@ const Category = () => {
         </div>
 
         {/* Category list */}
-        <CategoryList categories={categoryData} />
+        <CategoryList
+          categories={categoryData}
+          onEditCategory={handleEditCategory}
+        />
 
         {/* Adding category model */}
         <Modal
@@ -100,6 +131,20 @@ const Category = () => {
         </Modal>
 
         {/* Updating category model */}
+        <Modal
+          onClose={() => {
+            setOpenEditCategoryModal(false);
+            setSelectCategory(null);
+          }}
+          isOpen={openEditCategoryModal}
+          title="Update Category"
+        >
+          <AddCategoryForm 
+            initialCategoryData = {selectedCategory}
+            onAddCategory={handleUpdateCategory}
+            isEditing={true}
+          />
+        </Modal>
       </div>
     </Dashboard>
   );
