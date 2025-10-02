@@ -1,13 +1,15 @@
 import { useState } from "react";
 import Input from "./Input";
 import EmojiPickerPopup from "./EmojiPickerPopup";
+import { LoaderCircle } from "lucide-react";
 
-const AddCategoryForm = () => {
+const AddCategoryForm = ({onAddCategory}) => {
     const [category, setCategory] = useState({
         name: "",
         type: "income",
         icon: ""
     })
+    const [loading, setLoading] = useState(false);
 
     const categoryTypesOptions = [
         {value: "income", label: "Income"},
@@ -16,6 +18,15 @@ const AddCategoryForm = () => {
 
     const handleChange = (key, value) => {
         setCategory({...category, [key]: value})
+    }
+
+    const handleSubmit = async () => {
+        setLoading(true);
+        try {
+            await onAddCategory(category);
+        } finally {
+            setLoading(false);
+        }
     }
     return (
         <div className="p-4">
@@ -26,7 +37,7 @@ const AddCategoryForm = () => {
 
             <Input
                 value={category.name}
-                onChange={(target) => handleChange("name", target.value)}
+                onChange={(e) => handleChange("name", e.target.value)}
                 label = "Category Name"
                 placeholder="e.g., Freelance, Salary, Groceries"
                 type="text"
@@ -39,6 +50,24 @@ const AddCategoryForm = () => {
                 isSelect={true}
                 options={categoryTypesOptions}
             />
+            <div className="flex justify-end mt-6">
+                <button
+                type="button"
+                onClick={handleSubmit} 
+                disabled={loading}
+                className="add-btn add-btn-fill">
+                    {loading ? (
+                        <>
+                            <LoaderCircle className="w-4 h-4 animate-spin"/>
+                            Adding...
+                        </>
+                    ) : (
+                        <>
+                            Add Category
+                        </>
+                    )}
+                </button>
+            </div>
         </div>
     )
 }
