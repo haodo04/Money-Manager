@@ -44,11 +44,11 @@ const MenuBar = () => {
                   <User className="text-purple-500"/>  
                 </button>
                 {showDropdown && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-300 py-1 z-50">
                         {/* User info */}
                         <div className="px-4 py-3 border-b border-gray-100">
                             <div className="flex items-center gap-3">
-                                <div className="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-full">
+                                <div className="flex items-center justify-center w-8 h-8 bg-gray-200 rounded-full">
                                     <User className="w-4 h-4 text-purple-600"/>
                                 </div>
                                 <div className="flex-1 min-w-0">
