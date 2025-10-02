@@ -9,8 +9,6 @@ const axiosConfig = axios.create({
   },
 });
 
-export default axiosConfig;
-
 // list of endpoints that do not required authorization header
 const excludeEndpoints = [
   "/login",
@@ -57,3 +55,5 @@ axiosConfig.interceptors.response.use(
     }
   }
 );
+
+export default axiosConfig;
