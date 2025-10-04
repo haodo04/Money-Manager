@@ -10,7 +10,7 @@ const Income = () => {
   useUser();
   const [incomeData, setIncomeData] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const [openAddIncomeModal, setOpenAddIncomeModal] = useState(false);
   const [openDeleteAlert, setOpenDeleteAlert] = useState({
