@@ -5,7 +5,6 @@ import axiosConfig from "../util/axiosConfig";
 import API_ENDPOINTS from "../util/apiEndpoints";
 import toast from "react-hot-toast";
 import IncomeList from "../components/IncomeList";
-import { Plus } from "lucide-react";
 import Modal from "../components/Modal";
 import AddIncomeForm from "../components/AddIncomeForm";
 import DeleteAlert from "../components/DeleteAlert";
@@ -126,6 +125,29 @@ const deleteIncome = async(id) => {
   }
 }
 
+const handleDownloadIncomeDetails = async() => {
+  try {
+    const response = await axiosConfig.get(API_ENDPOINTS.INCOME_EXCEL_DOWNLOAD, {responseType: "blob"});
+    let filename = "income_details.xlsx";
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", filename); 
+    document.body.appendChild(link);
+    link.click();
+    link.parentNode.removeChild(link);
+    window.URL.revokeObjectURL(url);
+    toast.success("Download income details successfully");
+  } catch (error) {
+    console.log("Error downloading income details", error);
+    toast.error(error.response?.data?.message || "Failed to download income");
+  }
+}
+
+const handleEmailIncomeDetails = () => {
+  console.log("Email income details");
+}
+
 
   useEffect(() => {
     fetchIncomeDetails();
@@ -143,6 +165,8 @@ const deleteIncome = async(id) => {
           <IncomeList
             transactions={incomeData}
             onDelete={(id) => setOpenDeleteAlert({show: true, data: id})}
+            onDownload = {handleDownloadIncomeDetails}
+            onEmail = {handleEmailIncomeDetails}
           />
           {/* Add Income Modal */}
           <Modal
