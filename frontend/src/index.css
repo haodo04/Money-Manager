@@ -20,3 +20,13 @@ body {
   @apply flex items-center gap-1 px-3 py-1 rounded-md border;
 }
 
+.card {
+  box-sizing: border-box;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); 
+  padding: 16px;
+}
+
+
