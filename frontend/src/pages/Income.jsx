@@ -144,8 +144,17 @@ const handleDownloadIncomeDetails = async() => {
   }
 }
 
-const handleEmailIncomeDetails = () => {
-  console.log("Email income details");
+const handleEmailIncomeDetails = async () => {
+  
+  try {
+    const response = await axiosConfig.get(API_ENDPOINTS.EMAIL_INCOME);
+    if (response.status === 200) {
+      toast.success("Income details emailed successfully");
+    }
+  } catch(error) {
+    console.error("Error emailing income details: ", error)
+    toast.error(error.response?.data?.message || "Failed to email income")
+  }
 }
 
 
