@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import Dashboard from "../components/Dashboard";
 import { useUser } from "../hooks/useUser";
 import { Search } from "lucide-react";
 
 const Filter = () => {
   useUser();
+  const [type, setType] = useState("income");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState();
+  const [keyword, setKeyword] = useState();
+  const [sortField, setSortField] = useState("date");
+  const [sortOrder, setSortOrder] = useState("asc")
+  const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    console.log(type, startDate, endDate, sortField, sortOrder, keyword);
+  }
+
   return (
     <Dashboard activeMenu="Filters">
       <div className="my-5 mx-auto">
@@ -20,7 +34,10 @@ const Filter = () => {
               <label className="block text-sm font-medium mb-1" htmlFor="type">
                 Type
               </label>
-              <select id="type" className="w-full border rounded px-3 py-2">
+              <select 
+              value={type} id="type" 
+              className="w-full border rounded px-3 py-2"
+              onChange={e => setType(e.target.value)}>
                 <option value="income">Income</option>
                 <option value="expense">Expense</option>
               </select>
@@ -35,6 +52,8 @@ const Filter = () => {
               <input
                 id="startdate"
                 type="date"
+                value={startDate}
+                onChange={e => setStartDate(e.target.value)}
                 className="w-full border rounded px-3 py-2"
               />
             </div>
@@ -48,8 +67,18 @@ const Filter = () => {
               <input
                 id="enddate"
                 type="date"
+                value={endDate}
+                onChange={e => setEndDate(e.target.value)}
                 className="w-full border rounded px-3 py-2"
               />
+            </div>
+            <div>
+              <label htmlFor="sortField" className="block text-sm font-medium mb-1">Sort Field</label>
+              <select value={sortField} id="sortfield" className="w-full border rounded px-3 py-2" onChange={e => setSortField(e.target.value)}>
+                <option value="date">Date</option>
+                <option value="amount">Amount</option>
+                <option value="category">Category</option>
+              </select>
             </div>
             <div>
               <label
@@ -60,6 +89,8 @@ const Filter = () => {
               </label>
               <select
                 id="sortorder"
+                value={sortOrder}
+                onChange={e => setSortOrder(e.target.value)}
                 className="w-full border rounded px-3 py-2"
               >
                 <option value="asc">Ascending</option>
@@ -78,10 +109,12 @@ const Filter = () => {
                   id="keyword"
                   type="text"
                   placeholder="Search..."
+                  value={keyword}
+                  onChange={e => setKeyword(e.target.value)}
                   className="w-full border rounded px-3 py-2"
                 />
               </div>
-              <button className="mb-1 px-4 py-2 bg-purple-800 hover:bg-purple-900 text-white rounded flex items-center justify-center">
+              <button onClick={handleSearch} className="mb-1 px-4 py-2 bg-purple-800 hover:bg-purple-900 text-white rounded flex items-center justify-center">
                 <Search size={20} />
               </button>
             </div>
