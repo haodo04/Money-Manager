@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Dashboard from "../components/Dashboard";
 import { useUser } from "../hooks/useUser";
 import { Search } from "lucide-react";
+import toast from "react-hot-toast";
+import moment from "moment";
+import axiosConfig from "../util/axiosConfig";
+import API_ENDPOINTS from "../util/apiEndpoints";
+import TransactionInfoCard from "../components/TransactionInfoCard";
 
 const Filter = () => {
   useUser();
@@ -16,7 +21,19 @@ const Filter = () => {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    console.log(type, startDate, endDate, sortField, sortOrder, keyword);
+    setLoading(true);
+    try {
+      const response = await axiosConfig.post(API_ENDPOINTS.APPLY_FILTERS, {
+        type, startDate, endDate, keyword, sortField, sortOrder
+      });
+      console.log("transactions: ", response.data);
+      setTransactions(response.data)
+    } catch (error) {
+      console.log("Failed to fetch transactions: ", error);
+      toast.error(error.message || "Failed to fetch transactions. Please try again");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -119,6 +136,28 @@ const Filter = () => {
               </button>
             </div>
           </form>
+        </div>
+        <div className="card p-4">
+          <div className="flex justify-between items-center mb-4">
+            <h5 className="text-lg font-semibold">Transactions</h5>
+          </div>
+          {transactions.length === 0 && !loading? (
+            <p className="text-gray-500">Select the filters and click apply to filter the transactions</p>
+          ) : ""}
+          {loading ? (
+            <p className="text-gray-500">Loading Transactions</p>
+          ) : ("")}
+          {transactions.map((transaction) => (
+            <TransactionInfoCard
+              key={transaction.id}
+              title={transaction.name}
+              icon={transaction.icon}
+              date={moment(transaction.date).format("Do MMM YYYY")}
+              amount={transaction.amount}
+              type={type}
+              hideDeleteBtn
+            />
+          ))}
         </div>
       </div>
     </Dashboard>
