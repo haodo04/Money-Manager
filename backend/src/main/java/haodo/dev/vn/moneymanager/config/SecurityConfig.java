@@ -37,6 +37,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/status"
                 , "/health", "/register", "/activation", "/login")
                         .permitAll().anyRequest().authenticated())
+                .requestMatchers(HttpMethod.POST, "/api/expense/**").hasAnyRole("ADMIN","STAFF","USER")
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin(AbstractHttpConfigurer::disable);
