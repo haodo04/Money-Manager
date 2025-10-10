@@ -1,7 +1,7 @@
 package haodo.dev.vn.moneymanager.config;
 
 import haodo.dev.vn.moneymanager.security.JwtRequestFilter;
-import haodo.dev.vn.moneymanager.service.AppUserDetailService;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
