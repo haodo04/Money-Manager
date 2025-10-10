@@ -68,7 +68,7 @@ public class DashboardService {
                 incomeService.getTotalIncomesForCurrentUser());
         returnValue.put("totalExpense",
                 expenseService.getTotalExpenseForCurrentUser());
-        returnValue.put("recent5Expense", latestExpenses);
+        returnValue.put("recent5Expenses", latestExpenses);
         returnValue.put("recent5Incomes", latestIncomes);
         returnValue.put("recentTransactions", recentTransactions);
 
