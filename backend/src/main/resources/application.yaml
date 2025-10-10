@@ -27,7 +27,7 @@ spring:
     protocol: smtp
 
 jwt:
-  signerKey: RIDdDrZ4IzV5zpP1zc7lSqhR71AWXxXTjZnYqov5TAyoz8wHHp+mOr0eg94WwxCk
+  signerKey: ${JWT_SIGNER_KEY:dev-local-only-change-me}
 
 app:
   mail:
